@@ -2,7 +2,7 @@ package puzzles
 
 import java.io.File
 
-fun puzzle1() : Int {
+fun puzzle1(debug:Boolean = false) : Int {
     var sum = 0
     File("src/main/resources/inputs/puzzle1.txt").forEachLine {
         val numbers = mutableListOf(-1, -1)
@@ -21,9 +21,11 @@ fun puzzle1() : Int {
         } else {
             10 * numbers[0] + numbers[1]
         }
-//        println(sum)
-//        println(it)
-//        readln()
+        if(debug) {
+            println(sum)
+            println(it)
+            readln()
+        }
     }
     return sum
 }

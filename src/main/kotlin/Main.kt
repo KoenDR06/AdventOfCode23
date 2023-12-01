@@ -1,6 +1,6 @@
-import puzzles.puzzle1
-import java.io.File
+import puzzles.puzzle2
 
-fun main(args: Array<String>) {
-    println(puzzle1())
+fun main() {
+//    println(puzzle1())
+    println(puzzle2(true))
 }
