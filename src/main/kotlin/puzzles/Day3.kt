@@ -1,8 +1,6 @@
 package puzzles
 
 import println
-import readInput
-import kotlin.reflect.typeOf
 
 fun main() {
 //    part1(readInput("day3")).println()
@@ -24,26 +22,35 @@ fun main() {
 
 
 private fun part1(input: List<String>) : Int {
-    val elementList : MutableList<MutableList<String>> = mutableListOf()
-    input.forEach { elementList.add(it.split(".").toMutableList())}
-    elementList.println()
+    val sum = 0
 
-    val indexList : MutableList< MutableList< Pair< String, Int > > > = mutableListOf()
-    for(line in elementList) {
-        var index = 0
-        for(element in line) {
-            if(element != "") {
-                indexList.last().add(Pair(element, index))
+    for((y, line) in input.withIndex()) {
+        for((x, char) in line.withIndex()) {
+            if(char.digitToIntOrNull() is Int) {
+                checkSpace(input, Pair(x, y)).println()
+                x.println()
+                y.println()
+                println()
+
             }
         }
     }
 
-
-
-    var sum = 0
     return sum
 }
 
-private fun part2(input: List<String>) {
+fun checkSpace(input: List<String>, coords: Pair<Int, Int>) : Boolean {
+    var foundCharacter = false
 
+    for(x in coords.first - 1..coords.first) {
+        for(y in coords.second - 1..coords.second) {
+            try {
+                if(input[x][y].digitToIntOrNull() == null && input[x][y] != '.') {
+                    foundCharacter = true
+                }
+            } catch(e:IndexOutOfBoundsException) {}
+        }
+    }
+
+    return foundCharacter
 }
