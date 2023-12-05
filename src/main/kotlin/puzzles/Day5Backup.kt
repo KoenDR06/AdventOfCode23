@@ -1,20 +1,12 @@
 package puzzles
 
-import print
 import println
 import readInput
+import print
 
 fun main() {
-//    part1(readInput("day5")).println()
+    part1(readInput("day5")).println()
 //    part2(readInput("day5")).println()
-
-    part1(listOf(
-        "seeds: 79 14 55 13",
-        "",
-        "seed-to-soil map:",
-        "50 98 2",
-        "52 50 48"
-    )).println()
 
 //    part1(listOf(
 //        "seeds: 79 14 55 13",
@@ -57,7 +49,7 @@ fun main() {
 private fun part1(input: List<String>): Long {
     val seeds : MutableList<MutableList<Long>> = mutableListOf()
     seeds.add(mutableListOf())
-    val maps : MutableList<MutableMap<Pair<Long, Long>, Pair<Long, Long>>> = mutableListOf()
+    val maps : MutableList<MutableMap<LongRange, LongRange>> = mutableListOf()
     var searchNumbers = false
     for(line in input) {
         if(line.split(": ").size == 2) {
@@ -78,10 +70,7 @@ private fun part1(input: List<String>): Long {
                 mappingData.add(item.toLong())
             }
 
-            maps.last()[Pair(mappingData[1], mappingData[1] + mappingData[2])] = Pair(mappingData[0], mappingData[0] + mappingData[2])
-            Pair(mappingData[1], mappingData[1] + mappingData[2]).println()
-            Pair(mappingData[0], mappingData[0] + mappingData[2]).println()
-            println()
+            maps.last()[mappingData[1]..< mappingData[1] + mappingData[2]] = mappingData[0]..< mappingData[0] + mappingData[2]
         }
 
         else if(line.contains("map")) {
@@ -90,15 +79,18 @@ private fun part1(input: List<String>): Long {
         }
     }
 
+    "here".println()
+    Thread.sleep(10000)
+    "here".println()
+
     for(map in maps) {
         seeds.add(mutableListOf())
         for(seed in seeds[seeds.size - 2]) {
             var seedChecked = false
             for(entry in map) {
-                val index = getIndexOfSeed(seed, entry.key)
-                entry.println()
+                val index = entry.key.indexOf(seed)
                 if(index != -1) {
-                    seeds.last().add(entry.value.first + seed)
+                    seeds.last().add(entry.value.toList()[index])
                     seedChecked = true
                 }
             }
@@ -110,16 +102,4 @@ private fun part1(input: List<String>): Long {
 
 
     return seeds.last().min()
-}
-
-fun getIndexOfSeed(seed:Long, entry:Pair<Long, Long>) : Int {
-    if(entry.first <= seed && seed < entry.second) {
-        seed.println()
-        entry.println()
-        (seed - entry.first).toInt().println()
-        println()
-        return (seed - entry.first).toInt()
-    } else {
-        return -1
-    }
 }
